@@ -6,10 +6,20 @@
 - 위험 수준별 분류 (CRITICAL, HIGH, MEDIUM)
 - 컨텍스트 기반 경고 (차단하지 않고 주의 환기)
 - updatedInput으로 안전한 명령으로 자동 변환
+- utils 모듈 연동
 """
 import json
 import sys
 import re
+from pathlib import Path
+
+# utils 모듈 로드 (없으면 기본 동작)
+try:
+    sys.path.insert(0, str(Path(__file__).parent))
+    from utils import block_action, output_context
+except ImportError:
+    def block_action(msg): print(f"🚫 {msg}", file=sys.stderr); sys.exit(2)
+    def output_context(ctx): print(json.dumps({"additionalContext": ctx}))
 
 
 # CRITICAL: 즉시 차단 (exit 2)
@@ -76,22 +86,17 @@ def main():
         # CRITICAL 패턴 체크 - 즉시 차단
         matched, msg = check_patterns(command, CRITICAL_PATTERNS, "CRITICAL")
         if matched:
-            print(f"🚫 BLOCKED: {msg}", file=sys.stderr)
-            sys.exit(2)
+            block_action(f"BLOCKED: {msg}")
 
         # HIGH 패턴 체크 - 경고 후 차단
         matched, msg = check_patterns(command, HIGH_PATTERNS, "HIGH")
         if matched:
-            print(f"⛔ BLOCKED: {msg}", file=sys.stderr)
-            sys.exit(2)
+            block_action(f"BLOCKED: {msg}")
 
         # MEDIUM 패턴 체크 - 경고만 (차단하지 않음)
         matched, msg = check_patterns(command, MEDIUM_PATTERNS, "MEDIUM")
         if matched:
-            output = {
-                "additionalContext": f"⚠️ 주의: {msg}. 실행 전 확인이 필요합니다."
-            }
-            print(json.dumps(output, ensure_ascii=False))
+            output_context(f"⚠️ 주의: {msg}. 실행 전 확인이 필요합니다.")
             sys.exit(0)
 
         # 안전한 명령으로 변환 시도

@@ -1,0 +1,62 @@
+{
+  "_comment": "추천 플러그인 설정 - 핵심 기능만 포함 (40개)",
+  "enabledPlugins": {
+    "_category_core": "=== 핵심 워크플로우 ===",
+    "ultrathink@claude-code-marketplace": true,
+    "plan@claude-code-marketplace": true,
+    "explore@claude-code-marketplace": true,
+    "discuss@claude-code-marketplace": true,
+    "double-check@claude-code-marketplace": true,
+    "claude-mem@thedotmack": true,
+
+    "_category_dev": "=== 개발 ===",
+    "debugger@claude-code-marketplace": true,
+    "code-review@claude-code-marketplace": true,
+    "code-reviewer@claude-code-marketplace": true,
+    "test-writer-fixer@claude-code-marketplace": true,
+    "bug-detective@claude-code-marketplace": true,
+    "refractor@claude-code-marketplace": true,
+    "optimize@claude-code-marketplace": true,
+    "problem-solver-specialist@claude-code-marketplace": true,
+
+    "_category_lang": "=== 언어/프레임워크 ===",
+    "python-expert@claude-code-marketplace": true,
+    "web-dev@claude-code-marketplace": true,
+    "flutter-mobile-app-dev@claude-code-marketplace": true,
+    "react-native-dev@claude-code-marketplace": true,
+    "backend-architect@claude-code-marketplace": true,
+    "frontend-developer@claude-code-marketplace": true,
+
+    "_category_docs": "=== 문서화 ===",
+    "documentation-generator@claude-code-marketplace": true,
+    "update-claudemd@claude-code-marketplace": true,
+    "generate-api-docs@claude-code-marketplace": true,
+    "codebase-documenter@claude-code-marketplace": true,
+    "context7-docs-fetcher@claude-code-marketplace": true,
+
+    "_category_git": "=== Git/PR ===",
+    "commit@claude-code-marketplace": true,
+    "commit-commands@claude-code-plugins": true,
+    "pr-review@claude-code-marketplace": true,
+    "create-pr@claude-code-marketplace": true,
+    "fix-pr@claude-code-marketplace": true,
+    "create-worktrees@claude-code-marketplace": true,
+
+    "_category_research": "=== 연구/분석 ===",
+    "analyze-codebase@claude-code-marketplace": true,
+    "analyze-issue@claude-code-marketplace": true,
+
+    "_category_styles": "=== 출력 스타일 ===",
+    "explanatory-output-style@claude-code-plugins": true,
+    "learning-output-style@claude-code-plugins": true,
+
+    "_category_plugins": "=== 플러그인 개발 ===",
+    "plugin-dev@claude-code-plugins": true,
+    "agent-sdk-dev@claude-code-plugins": true,
+    "feature-dev@claude-code-plugins": true,
+
+    "_category_security": "=== 보안 ===",
+    "audit@claude-code-marketplace": true,
+    "security-guidance@claude-code-plugins": true
+  }
+}
