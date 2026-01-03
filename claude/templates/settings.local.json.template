@@ -1,0 +1,92 @@
+{
+  "$schema": "https://claude.ai/code/settings.schema.json",
+  "$comment": "프로젝트별 Permission Allow-list 템플릿 (Boris Cheny 패턴)",
+
+  "permissions": {
+    "$comment": "도구별 자동 허용 규칙 - 프로젝트에 맞게 수정",
+
+    "allow": [
+      "Bash(npm run build:*)",
+      "Bash(npm run test:*)",
+      "Bash(npm run lint:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git branch:*)",
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(head:*)",
+      "Bash(tail:*)",
+      "Bash(wc:*)",
+      "Bash(grep:*)",
+      "Bash(find:*)",
+      "Bash(pwd:*)",
+      "Bash(echo:*)",
+      "WebSearch"
+    ],
+
+    "deny": [
+      "Bash(rm -rf:*)",
+      "Bash(sudo:*)",
+      "Bash(chmod 777:*)",
+      "Bash(mkfs:*)",
+      "Bash(dd if=:*)",
+      "Bash(> /dev/sd:*)"
+    ]
+  },
+
+  "examples": {
+    "$comment": "프로젝트 유형별 예시 - 필요한 항목만 permissions.allow에 복사",
+
+    "python_project": [
+      "Bash(uv run:*)",
+      "Bash(uv sync:*)",
+      "Bash(pytest:*)",
+      "Bash(ruff:*)",
+      "Bash(mypy:*)",
+      "Bash(python -m:*)"
+    ],
+
+    "node_project": [
+      "Bash(npm:*)",
+      "Bash(pnpm:*)",
+      "Bash(yarn:*)",
+      "Bash(npx:*)",
+      "Bash(node:*)"
+    ],
+
+    "rust_project": [
+      "Bash(cargo:*)",
+      "Bash(rustc:*)",
+      "Bash(rustfmt:*)",
+      "Bash(clippy:*)"
+    ],
+
+    "docker_project": [
+      "Bash(docker compose:*)",
+      "Bash(docker build:*)",
+      "Bash(docker run:*)",
+      "Bash(docker ps:*)",
+      "Bash(docker logs:*)"
+    ],
+
+    "git_workflow": [
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git pull:*)",
+      "Bash(git checkout:*)",
+      "Bash(git merge:*)",
+      "Bash(gh pr:*)",
+      "Bash(gh issue:*)"
+    ],
+
+    "mcp_tools": [
+      "mcp__context7__*",
+      "mcp__playwright__*",
+      "mcp__browserbase__*",
+      "mcp__arxiv__*",
+      "mcp__zotero__*"
+    ]
+  }
+}

@@ -42,6 +42,15 @@
             "command": "python3 ~/.claude/hooks/pre-edit.py"
           }
         ]
+      },
+      {
+        "matcher": "mcp__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ~/.claude/hooks/pre-mcp.py"
+          }
+        ]
       }
     ],
     "PostToolUse": [
@@ -72,6 +81,11 @@
             "type": "command",
             "command": "python3 ~/.claude/hooks/subagent-stop.py",
             "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "python3 ~/.claude/hooks/verification-loop.py",
+            "timeout": 10
           }
         ]
       }
@@ -95,6 +109,11 @@
           {
             "type": "command",
             "command": "python3 ~/.claude/hooks/stop.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 ~/.claude/hooks/ralph-loop.py",
+            "timeout": 5
           }
         ]
       }

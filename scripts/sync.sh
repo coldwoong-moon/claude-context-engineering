@@ -280,6 +280,7 @@ if [[ "$SYNC_CLAUDE" == true ]]; then
     sync_dir "$REPO_DIR/claude/hooks" "$CLAUDE_DIR/hooks"
     sync_dir "$REPO_DIR/claude/agents" "$CLAUDE_DIR/agents"
     sync_dir "$REPO_DIR/claude/output-styles" "$CLAUDE_DIR/output-styles"
+    sync_dir "$REPO_DIR/claude/commands" "$CLAUDE_DIR/commands"
 
     # settings.json 병합 (enabledPlugins, hooks만)
     if [[ -f "$REPO_DIR/claude/settings.json" ]] && command -v jq &> /dev/null; then

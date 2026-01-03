@@ -2,7 +2,7 @@
 
 > 체계적인 Claude Code 환경 구성을 위한 Context Engineering 시스템
 >
-> **v1.1.0** - Oh-My-OpenCode + Boris Cheny 패턴 통합
+> **v1.2.0** - Hook Chaining + Permission Allow-list 추가
 
 ## 적용된 패턴
 
@@ -14,6 +14,7 @@
 | **Boris Cheny** | Verification Loop | `verification-loop.py` |
 | **Boris Cheny** | Slash Commands | `commands/` |
 | **Boris Cheny** | CLAUDE.md Compounding | `CLAUDE.md.template` |
+| **Boris Cheny** | Permission Allow-list | `settings.local.json.template` |
 
 ## 구조
 
@@ -53,8 +54,9 @@ claude/
     ├── settings-core.json          # 필수 플러그인 (14개)
     ├── settings-optional.json      # 선택 플러그인 (26개)
     ├── settings-recommended.json   # 권장 구성 (40개)
-    ├── hooks-config.json           # Hook 설정 템플릿
-    └── CLAUDE.md.template          # ✨ Compounding 템플릿
+    ├── hooks-config.json              # Hook 설정 템플릿 (Chaining 지원)
+    ├── CLAUDE.md.template             # ✨ Compounding 템플릿
+    └── settings.local.json.template   # ✨ Permission Allow-list
 ```
 
 ## 핵심 개념
@@ -110,6 +112,42 @@ Boris Cheny 패턴: `.claude/commands/`에 반복 워크플로우 저장
 /commit-push-pr    # 커밋 → 푸시 → PR
 /verify-app        # 린터 + 타입체크 + 테스트 + 빌드
 /code-simplifier   # 코드 단순화
+```
+
+## Permission Allow-list
+
+Boris Cheny 패턴: 프로젝트별 도구 권한 자동 허용
+
+```json
+// .claude/settings.local.json
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run build:*)",
+      "Bash(git status:*)",
+      "WebSearch"
+    ],
+    "deny": [
+      "Bash(rm -rf:*)",
+      "Bash(sudo:*)"
+    ]
+  }
+}
+```
+
+템플릿: `templates/settings.local.json.template`
+
+## Hook Chaining
+
+동일 이벤트에 여러 Hook 체이닝 (단일 책임 분리):
+
+```json
+"Stop": [{
+  "hooks": [
+    {"command": "python3 ~/.claude/hooks/stop.py"},      // 세션 리플렉션
+    {"command": "python3 ~/.claude/hooks/ralph-loop.py"} // 작업 연속성
+  ]
+}]
 ```
 
 ## Hooks 트리거
