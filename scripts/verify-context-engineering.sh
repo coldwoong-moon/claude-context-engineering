@@ -12,8 +12,14 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
+# 버전 읽기
+VERSION="unknown"
+if [[ -f "$REPO_DIR/VERSION" ]]; then
+    VERSION=$(cat "$REPO_DIR/VERSION" | tr -d '[:space:]')
+fi
+
 echo "═══════════════════════════════════════════════════════"
-echo "  Claude Context Engineering 검증"
+echo "  Claude Context Engineering 검증 (v$VERSION)"
 echo "═══════════════════════════════════════════════════════"
 echo ""
 

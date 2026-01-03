@@ -85,15 +85,85 @@ fi
 
 cd "$REPO_DIR"
 
+# 버전 관리 함수
+bump_version() {
+    local version_file="$REPO_DIR/VERSION"
+    local bump_type="${1:-patch}"  # patch, minor, major
+
+    if [[ ! -f "$version_file" ]]; then
+        echo "1.0.0" > "$version_file"
+    fi
+
+    local current=$(cat "$version_file" | tr -d '[:space:]')
+    local major minor patch
+
+    IFS='.' read -r major minor patch <<< "$current"
+    major=${major:-1}
+    minor=${minor:-0}
+    patch=${patch:-0}
+
+    case $bump_type in
+        major)
+            major=$((major + 1))
+            minor=0
+            patch=0
+            ;;
+        minor)
+            minor=$((minor + 1))
+            patch=0
+            ;;
+        patch|*)
+            patch=$((patch + 1))
+            ;;
+    esac
+
+    local new_version="$major.$minor.$patch"
+    echo "$new_version" > "$version_file"
+    echo "$new_version"
+}
+
+# 변경 유형 감지
+detect_change_type() {
+    local changed_files=$(git diff --cached --name-only 2>/dev/null || git diff --name-only)
+
+    # 새 agent, hook, output-style 추가 = minor
+    if echo "$changed_files" | grep -qE "^claude/(agents|hooks|output-styles)/[^/]+\.(md|py)$"; then
+        if git diff --cached --diff-filter=A --name-only 2>/dev/null | grep -qE "^claude/"; then
+            echo "minor"
+            return
+        fi
+    fi
+
+    # breaking change 감지 (hooks 삭제)
+    if git diff --cached --diff-filter=D --name-only 2>/dev/null | grep -qE "^claude/hooks/"; then
+        echo "major"
+        return
+    fi
+
+    echo "patch"
+}
+
 # Push 모드
 if [[ "$PUSH" == true ]]; then
     log "Pushing local changes to GitHub..."
 
     if [[ -n $(git status --porcelain) ]]; then
+        # 변경 유형 감지 및 버전 업데이트
         git add -A
-        git commit -m "sync: Update AI tools config $(date '+%Y-%m-%d %H:%M')"
+        change_type=$(detect_change_type)
+        new_version=$(bump_version "$change_type")
+
+        # VERSION 파일도 스테이징
+        git add "$REPO_DIR/VERSION"
+
+        git commit -m "sync: Update AI tools config v$new_version
+
+Version: $new_version
+Changed: $(git diff --cached --stat HEAD~1 2>/dev/null | tail -1 || echo 'multiple files')
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)"
         git push origin main
-        log "Successfully pushed changes"
+        log "Successfully pushed changes (v$new_version)"
     else
         log "No changes to push"
     fi
