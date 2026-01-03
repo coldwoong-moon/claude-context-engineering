@@ -1,0 +1,13 @@
+{
+  "security": {
+    "auth": {
+      "selectedType": "oauth-personal"
+    }
+  },
+  "ui": {
+    "theme": "GitHub"
+  },
+  "general": {
+    "previewFeatures": true
+  }
+}

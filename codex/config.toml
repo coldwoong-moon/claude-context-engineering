@@ -1,0 +1,11 @@
+# Codex Configuration (synced across devices)
+# Project-specific settings are managed locally
+
+model = "gpt-5.2-codex"
+model_reasoning_effort = "medium"
+
+[notice.model_migrations]
+"gpt-5.2" = "gpt-5.2-codex"
+
+# Note: Project trust levels are device-specific and not synced
+# Add your projects locally: codex trust /path/to/project

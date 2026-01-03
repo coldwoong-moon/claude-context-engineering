@@ -1,0 +1,42 @@
+{
+  "mcp-neo4j": {
+    "overrides": [
+      "/Users/coldwoong/*"
+    ]
+  },
+  "context7": {
+    "overrides": [
+      "/Users/coldwoong/*"
+    ]
+  },
+  "chrome-devtools-mcp": {
+    "overrides": [
+      "/Users/coldwoong/*"
+    ]
+  },
+  "exa-mcp-server": {
+    "overrides": [
+      "/Users/coldwoong/*"
+    ]
+  },
+  "conductor": {
+    "overrides": [
+      "/Users/coldwoong/*"
+    ]
+  },
+  "nanobanana": {
+    "overrides": [
+      "/Users/coldwoong/*"
+    ]
+  },
+  "code-review": {
+    "overrides": [
+      "/Users/coldwoong/*"
+    ]
+  },
+  "genkit": {
+    "overrides": [
+      "/Users/coldwoong/*"
+    ]
+  }
+}
