@@ -13,10 +13,17 @@
 git clone https://github.com/coldwoong-moon/claude-context-engineering.git
 cd claude-context-engineering
 
-# 2. Install (hooks + settings.json 자동 설정)
+# 2. Install (2가지 방법 중 선택)
+
+# Option A: Python (Node.js 불필요)
+python scripts/setup.py install
+
+# Option B: Node.js
 npm run setup
 
 # 3. Verify
+python scripts/setup.py doctor
+# 또는
 npm run doctor
 ```
 
@@ -35,6 +42,19 @@ npm run doctor
 ```
 
 ### CLI 명령어
+
+**Python 사용 (권장 - 추가 의존성 불필요)**
+
+| 명령어 | 설명 |
+|--------|------|
+| `python scripts/setup.py install` | 전체 설치 |
+| `python scripts/setup.py hooks` | hooks만 설치 |
+| `python scripts/setup.py config` | settings.json만 설정 |
+| `python scripts/setup.py project` | 현재 프로젝트 초기화 |
+| `python scripts/setup.py doctor` | 설치 진단 |
+| `python scripts/setup.py uninstall` | 설정 제거 |
+
+**Node.js 사용**
 
 | 명령어 | 설명 |
 |--------|------|

@@ -11,20 +11,30 @@ Windows, macOS, Linux에서 Claude Code Context Engineering 프레임워크를 �
 git clone https://github.com/coldwoong-moon/claude-context-engineering.git
 cd claude-context-engineering
 
-# 설치 실행
+# 설치 실행 (2가지 방법)
+
+# Option A: Python (권장 - 추가 의존성 불필요)
+python scripts/setup.py install
+
+# Option B: Node.js
 npm run setup
 
-# 또는 직접 실행
-node scripts/setup.js install
-
-# 현재 프로젝트 초기화
-node scripts/setup.js project
-
 # 설치 확인
-node scripts/setup.js doctor
+python scripts/setup.py doctor
 ```
 
-### CLI 명령어
+### CLI 명령어 (Python)
+
+| 명령어 | 설명 |
+|--------|------|
+| `python scripts/setup.py install` | 전체 설치 (hooks + config) |
+| `python scripts/setup.py hooks` | hooks만 설치 |
+| `python scripts/setup.py config` | settings.json만 설정 |
+| `python scripts/setup.py project` | 현재 디렉토리를 Claude 프로젝트로 초기화 |
+| `python scripts/setup.py doctor` | 설치 진단 |
+| `python scripts/setup.py uninstall` | 설정 제거 |
+
+### CLI 명령어 (Node.js)
 
 | 명령어 | 설명 |
 |--------|------|
