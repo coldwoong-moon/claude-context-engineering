@@ -9,6 +9,7 @@
 @ORCHESTRATOR.md
 @ORCHESTRATOR-AGENTS.md
 @MODES.md
+@CROSS-PLATFORM.md
 
 ## Magic Keywords (oh-my-opencode 패턴)
 
