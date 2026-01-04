@@ -4,6 +4,65 @@
 
 여러 기기에서 동일한 AI 도구 환경(hooks, agents, plugins, settings)을 사용할 수 있도록 GitHub을 통해 동기화하는 시스템입니다.
 
+## 🚀 Quick Install (All Platforms)
+
+**Windows, macOS, Linux** 모두 동일한 명령어로 설치:
+
+```bash
+# 1. Clone
+git clone https://github.com/coldwoong-moon/claude-context-engineering.git
+cd claude-context-engineering
+
+# 2. Install (hooks + settings.json 자동 설정)
+npm run setup
+
+# 3. Verify
+npm run doctor
+```
+
+### 설치 확인
+
+```
+🔍 Running diagnostics...
+──────────────────────────────────────────────────
+✓ Python (python3)
+✓ ~/.claude directory
+✓ Hooks directory (18 hooks)
+✓ settings.json (Hooks configured)
+✓ Claude Code CLI
+──────────────────────────────────────────────────
+✓ All checks passed!
+```
+
+### CLI 명령어
+
+| 명령어 | 설명 |
+|--------|------|
+| `npm run setup` | 전체 설치 (hooks + settings.json) |
+| `npm run setup:hooks` | hooks만 설치 |
+| `npm run setup:config` | settings.json만 설정 |
+| `npm run setup:project` | 현재 프로젝트를 Claude 프로젝트로 초기화 |
+| `npm run doctor` | 설치 진단 및 문제 확인 |
+| `npm run uninstall` | hooks 설정 제거 |
+
+### 프로젝트 초기화
+
+```bash
+# 프로젝트 디렉토리에서 실행
+cd your-project
+node ~/claude-context-engineering/scripts/setup.js project
+
+# 생성되는 구조:
+# your-project/
+# └── .claude/
+#     ├── CLAUDE.md          # 프로젝트 엔트리포인트
+#     └── knowledge/
+#         ├── context.md     # 프로젝트 컨텍스트
+#         ├── decisions.md   # 아키텍처 결정
+#         ├── patterns.md    # 코드 패턴
+#         └── errors.md      # 알려진 오류
+```
+
 ## Supported Tools
 
 | Tool | Synced Items |
@@ -27,13 +86,17 @@
 
 ## Features
 
+- **Cross-Platform**: Windows, macOS, Linux 모두 지원
+- **One Command Install**: `npm run setup`으로 전체 설치
 - **Multi-Tool Sync**: Claude Code, Gemini CLI, Codex 설정을 한 곳에서 관리
 - **Automatic Sync**: Claude 세션 시작 시 자동으로 최신 설정 pull
 - **Selective Sync**: 특정 도구만 동기화 가능 (`--claude`, `--gemini`, `--codex`)
 - **Safe Merge**: settings.json은 특정 키만 병합 (전체 덮어쓰기 방지)
 - **Lock Prevention**: 동시 실행 방지로 충돌 없는 동기화
 
-## Quick Start
+## Manual Install (Alternative)
+
+자동 설치가 작동하지 않는 경우:
 
 ```bash
 # 1. Clone
@@ -230,6 +293,54 @@ sudo apt-get install jq
 chmod +x ~/.claude/hooks/*.py
 ```
 
+## Magic Keywords (oh-my-opencode Pattern)
+
+Claude Code 세션에서 매직 키워드로 모드 자동 활성화:
+
+| Keyword | Aliases | Description |
+|---------|---------|-------------|
+| `ultrawork` | `ulw`, `/ultra` | 전체 기능 최대 활성화 (TDD + TODO 필수) |
+| `deepwork` | `dw`, `/deep` | 깊은 분석 모드 |
+| `quickfix` | `qf`, `/quick` | 빠른 수정 모드 |
+| `research` | `rs`, `/research` | 리서치 모드 |
+| `security` | `sec`, `/security` | 보안 감사 모드 |
+| `refactor` | `rf`, `/refactor` | 리팩토링 모드 |
+
+### 암묵적 모드 (다국어 지원)
+
+검색/분석 키워드 자동 감지 (한국어, 일본어, 중국어 포함):
+
+```
+"이 파일을 찾아줘" → SEARCH 모드 활성화
+"코드를 분석해줘" → ANALYZE 모드 활성화
+```
+
+## Context Engineering Hooks
+
+설치 시 자동 설정되는 18개의 hooks:
+
+| Hook | Event | 기능 |
+|------|-------|------|
+| `magic-keywords.py` | UserPromptSubmit | 매직 키워드 감지 및 모드 활성화 |
+| `continuation-enforcer.py` | SubagentStop, Stop | 미완료 작업 감지 및 연속 작업 강제 |
+| `context-window-monitor.py` | PreCompact | 컨텍스트 사용량 모니터링 |
+| `session-recovery.py` | SessionStart | 비정상 종료 복구 |
+| `session-start.py` | SessionStart | 세션 초기화 및 동기화 |
+| `pre-bash.py` | PreToolUse | Bash 실행 전 검증 |
+| `post-bash.py` | PostToolUse | 오류 자동 기록 |
+| `pre-edit.py` | PreToolUse | 파일 수정 전 검증 |
+| `post-edit.py` | PostToolUse | 수정 추적 |
+
+## Platform Support
+
+| Platform | Python Command | Home Directory | Status |
+|----------|---------------|----------------|--------|
+| Windows | `python` | `%USERPROFILE%` | ✅ 지원 |
+| macOS | `python` / `python3` | `~` | ✅ 지원 |
+| Linux | `python` / `python3` | `~` | ✅ 지원 |
+
+자세한 플랫폼별 설정은 [CROSS-PLATFORM.md](claude/CROSS-PLATFORM.md) 참조.
+
 ## Philosophy
 
 이 시스템은 **Manus-style Context Engineering** 원칙을 따릅니다:
@@ -238,6 +349,14 @@ chmod +x ~/.claude/hooks/*.py
 - **날조 임계점 준수**: 8개 이상 항목은 반드시 중간 검증
 - **오류는 자산**: 오류 메시지는 축적하여 학습 자원으로 활용
 - **파일 = 무한 메모리**: 중요 결정/패턴은 영속화
+- **TODO 필수**: 멀티스텝 작업은 반드시 TODO 관리 (oh-my-opencode)
+- **검증 필수**: "증거 없음 = 완료 아님" (oh-my-opencode)
+
+## Requirements
+
+- **Node.js** 18 이상
+- **Python** 3.9 이상
+- **Claude Code CLI** 설치됨
 
 ## License
 
@@ -245,4 +364,4 @@ MIT License
 
 ---
 
-> "Take a deep breath. We're not here to write code. We're here to make a dent in the universe."
+> "Work, delegate, verify, ship. No AI slop." - oh-my-opencode
