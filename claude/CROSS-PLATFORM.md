@@ -2,9 +2,43 @@
 
 Windows, macOS, Linux에서 Claude Code Context Engineering 프레임워크를 설정하는 방법입니다.
 
+## 빠른 설치 (권장)
+
+모든 플랫폼에서 동일한 명령어로 설치:
+
+```bash
+# 저장소 클론
+git clone https://github.com/coldwoong-moon/claude-context-engineering.git
+cd claude-context-engineering
+
+# 설치 실행
+npm run setup
+
+# 또는 직접 실행
+node scripts/setup.js install
+
+# 현재 프로젝트 초기화
+node scripts/setup.js project
+
+# 설치 확인
+node scripts/setup.js doctor
+```
+
+### CLI 명령어
+
+| 명령어 | 설명 |
+|--------|------|
+| `npm run setup` | 전체 설치 (hooks + config) |
+| `npm run setup:hooks` | hooks만 설치 |
+| `npm run setup:config` | settings.json만 설정 |
+| `npm run setup:project` | 현재 디렉토리를 Claude 프로젝트로 초기화 |
+| `npm run doctor` | 설치 진단 |
+| `npm run uninstall` | 설정 제거 |
+
 ## 플랫폼별 요구사항
 
 ### 공통 요구사항
+- Node.js 18 이상
 - Python 3.9 이상
 - Claude Code CLI 설치
 
@@ -26,7 +60,9 @@ python3 --version
 npm install -g @anthropic/claude-code
 ```
 
-## 설치 방법
+## 수동 설치 방법
+
+자동 설치가 작동하지 않는 경우 수동으로 설치합니다.
 
 ### 1. hooks 디렉토리 복사
 
