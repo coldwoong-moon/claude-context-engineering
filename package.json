@@ -1,0 +1,37 @@
+{
+  "name": "claude-context-engineering",
+  "version": "1.0.0",
+  "description": "Context Engineering framework for Claude Code - Cross-platform setup tool",
+  "main": "scripts/setup.js",
+  "bin": {
+    "claude-ce-setup": "./scripts/setup.js",
+    "context-engineering": "./scripts/setup.js"
+  },
+  "scripts": {
+    "setup": "node scripts/setup.js install",
+    "setup:hooks": "node scripts/setup.js hooks",
+    "setup:config": "node scripts/setup.js config",
+    "setup:project": "node scripts/setup.js project",
+    "uninstall": "node scripts/setup.js uninstall",
+    "doctor": "node scripts/setup.js doctor"
+  },
+  "keywords": [
+    "claude",
+    "claude-code",
+    "context-engineering",
+    "ai",
+    "hooks",
+    "productivity"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "scripts/",
+    "hooks/",
+    "claude/",
+    "templates/"
+  ]
+}

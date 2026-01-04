@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "env": {},
+  "hooks": {
+    "_comment": "Windows용 hook 설정 템플릿. %USERPROFILE%\\.claude\\settings.json에 복사하여 사용",
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"%USERPROFILE%\\.claude\\hooks\\session-recovery.py\"",
+            "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "python \"%USERPROFILE%\\.claude\\hooks\\session-start.py\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"%USERPROFILE%\\.claude\\hooks\\magic-keywords.py\"",
+            "timeout": 3
+          },
+          {
+            "type": "command",
+            "command": "python \"%USERPROFILE%\\.claude\\hooks\\user-prompt-submit.py\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"%USERPROFILE%\\.claude\\hooks\\pre-bash.py\""
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"%USERPROFILE%\\.claude\\hooks\\pre-edit.py\""
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"%USERPROFILE%\\.claude\\hooks\\post-bash.py\""
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"%USERPROFILE%\\.claude\\hooks\\post-edit.py\""
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"%USERPROFILE%\\.claude\\hooks\\subagent-stop.py\"",
+            "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "set CLAUDE_HOOK_EVENT=SubagentStop && python \"%USERPROFILE%\\.claude\\hooks\\continuation-enforcer.py\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"%USERPROFILE%\\.claude\\hooks\\context-window-monitor.py\"",
+            "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "python \"%USERPROFILE%\\.claude\\hooks\\pre-compact.py\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "set CLAUDE_HOOK_EVENT=Stop && python \"%USERPROFILE%\\.claude\\hooks\\continuation-enforcer.py\"",
+            "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "python \"%USERPROFILE%\\.claude\\hooks\\stop.py\""
+          }
+        ]
+      }
+    ]
+  }
+}
