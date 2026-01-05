@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json.schemastore.org/claude-mcp-config.json",
+  "_comment": "Research Mode MCP Servers Configuration",
+  "mcpServers": {
+    "semantic-scholar": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://github.com/FujishigeTemma/semantic-scholar-mcp",
+        "semantic-scholar-mcp",
+        "serve"
+      ],
+      "env": {
+        "SEMANTIC_SCHOLAR_API_KEY": "${SEMANTIC_SCHOLAR_API_KEY}"
+      },
+      "_description": "Semantic Scholar API for academic paper search, citations, and author info",
+      "_tools": [
+        "search_paper - Search papers with filters (year, domain, open access)",
+        "get_paper - Get paper details by DOI, arXiv ID, or S2 ID",
+        "get_authors - Get author information and metrics",
+        "get_citation - Export citations in BibTeX, APA, MLA, Chicago"
+      ]
+    },
+    "paper-search": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://github.com/openags/paper-search-mcp",
+        "python",
+        "-m",
+        "paper_search_mcp.server"
+      ],
+      "env": {
+        "SEMANTIC_SCHOLAR_API_KEY": "${SEMANTIC_SCHOLAR_API_KEY}"
+      },
+      "_description": "Multi-source academic paper search and download",
+      "_sources": [
+        "arXiv",
+        "PubMed",
+        "bioRxiv",
+        "medRxiv",
+        "Google Scholar",
+        "IACR ePrint",
+        "Semantic Scholar"
+      ],
+      "_tools": [
+        "search_arxiv - Search arXiv papers",
+        "search_pubmed - Search PubMed papers",
+        "search_biorxiv - Search bioRxiv preprints",
+        "download_arxiv - Download paper PDFs"
+      ]
+    },
+    "deep-research": {
+      "command": "python",
+      "args": [
+        "${HOME}/.claude/mcp/deep-research/deep_research.py"
+      ],
+      "_description": "Unified web + academic research with structured analysis",
+      "_tools": [
+        "deep_research - Comprehensive research with sources: web, academic, or both"
+      ],
+      "_setup": "git clone https://github.com/mcherukara/Claude-Deep-Research ~/.claude/mcp/deep-research"
+    },
+    "arxiv": {
+      "command": "uvx",
+      "args": [
+        "mcp-server-fetch"
+      ],
+      "_description": "Fetch and parse arXiv papers directly",
+      "_usage": "Use with arXiv URLs for direct paper access"
+    },
+    "browser": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@anthropic-ai/mcp-server-puppeteer"
+      ],
+      "_description": "Browser automation for accessing web resources",
+      "_usage": "For JavaScript-rendered pages, PDFs, and interactive content"
+    }
+  }
+}

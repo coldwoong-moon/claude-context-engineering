@@ -164,25 +164,69 @@ MAGIC_KEYWORDS = {
 """
     },
 
-    # === RESEARCH: 리서치 모드 ===
+    # === RESEARCH: 심층 연구 모드 (Enhanced) ===
     "research": {
-        "aliases": ["rs", "/research", "리서치"],
-        "description": "깊은 조사 및 문서화",
+        "aliases": ["rs", "/research", "리서치", "연구", "논문"],
+        "description": "심층 연구 및 학술 분석 모드",
         "activation": {
-            "thinking": "--think-hard",
-            "mcp": ["Context7", "Sequential"],
-            "flags": ["--c7", "--verbose"],
-            "persona": "mentor",
+            "thinking": "--ultrathink",
+            "mcp": ["Sequential", "Context7", "semantic-scholar", "paper-search", "deep-research"],
+            "flags": ["--verbose", "--validate"],
+            "persona": "librarian",
         },
+        "behavioral_rules": """
+## RESEARCH Mode Behavioral Rules
+
+### Core Principles
+```yaml
+evidence_based: "모든 주장은 신뢰할 수 있는 출처로 뒷받침"
+systematic: "체계적 문헌 검토 방법론 적용"
+reproducible: "연구 과정 및 검색 쿼리 문서화"
+comprehensive: "다중 소스 교차 검증"
+current: "최신 연구 동향 우선"
+```
+
+### Research Workflow
+1. **Exploration Phase**: 키워드 추출 → 초기 검색 → 관련성 필터링
+2. **Deep Analysis Phase**: 핵심 논문 심층 분석 → 인용 네트워크 탐색
+3. **Synthesis Phase**: 연구 동향 종합 → 격차 식별 → 리포트 생성
+
+### Source Credibility Matrix
+| Tier | Source | Trust |
+|------|--------|-------|
+| 1 | Peer-reviewed journals, Top conferences | 95% |
+| 2 | arXiv (>50 citations), Workshop papers | 80% |
+| 3 | Recent arXiv, Official docs | 65% |
+| 4 | Blogs, Forums | 40% |
+| 5 | Unattributed content | 10% |
+
+### MCP Server Usage
+- **semantic-scholar**: 학술 논문 검색, DOI/arXiv ID로 논문 조회
+- **paper-search**: arXiv, PubMed, bioRxiv 다중 소스 검색
+- **deep-research**: 웹 + 학술 통합 연구
+
+### Citation Requirements
+- 모든 주요 주장에 출처 명시
+- DOI 또는 arXiv ID 포함
+- 인용 형식: BibTeX, APA, MLA 지원
+""",
         "message": """
 📚 **RESEARCH MODE ACTIVATED**
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✓ Deep Research Thinking
-✓ Context7 for Documentation
-✓ Mentor Persona (지식 전달 최적화)
-✓ Verbose Output for Learning
+✓ Ultrathink (32K 토큰 심층 분석)
+✓ Research MCP Servers:
+  • Semantic Scholar (학술 논문 검색)
+  • Paper Search (arXiv, PubMed, bioRxiv)
+  • Deep Research (웹 + 학술 통합)
+✓ Librarian Persona (증거 기반 연구)
+✓ Source Verification Required
 
-💡 "Evidence > assumptions. Documentation is knowledge."
+📖 **Available Commands:**
+- `/research <topic> --academic` : 학술 논문 중심 연구
+- `/research <topic> --web` : 웹 리소스 포함
+- `/research <topic> --cite bibtex` : BibTeX 인용 포함
+
+💡 "Evidence > assumptions. Every claim needs a source."
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 """
     },
