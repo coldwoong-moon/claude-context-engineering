@@ -116,6 +116,13 @@ check_prerequisites() {
 install_semantic_scholar() {
     log "\n📚 Installing Semantic Scholar MCP..."
 
+    # Check if already installed
+    local mcp_list=$(claude mcp list 2>/dev/null || echo "")
+    if echo "$mcp_list" | grep -q "semantic-scholar"; then
+        log_success "Semantic Scholar MCP already installed"
+        return 0
+    fi
+
     # Check for API key
     if [ -z "$SEMANTIC_SCHOLAR_API_KEY" ]; then
         log_warning "SEMANTIC_SCHOLAR_API_KEY not set"
@@ -137,17 +144,15 @@ install_semantic_scholar() {
 install_paper_search() {
     log "\n📄 Installing Paper Search MCP..."
 
-    # Try Smithery first
-    if command -v npx &> /dev/null; then
-        npx -y @smithery/cli install @openags/paper-search-mcp --client claude \
-            && log_success "Paper Search MCP installed via Smithery" \
-            || {
-                log_warning "Smithery installation failed, trying manual..."
-                install_paper_search_manual
-            }
-    else
-        install_paper_search_manual
+    # Check if already installed
+    local mcp_list=$(claude mcp list 2>/dev/null || echo "")
+    if echo "$mcp_list" | grep -q "paper-search"; then
+        log_success "Paper Search MCP already installed"
+        return 0
     fi
+
+    # Direct installation via claude mcp add (most reliable)
+    install_paper_search_manual
 }
 
 install_paper_search_manual() {
