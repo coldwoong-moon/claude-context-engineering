@@ -583,6 +583,35 @@ troubleshooting:
   - "다른 데이터베이스 시도"
 ```
 
+### Citation API 오류 (Known Bug)
+
+Semantic Scholar MCP의 `get_citation` 함수에 버그가 있습니다:
+
+**오류 메시지**:
+```
+Error: API returned status 400: {"error":"Unrecognized or unsupported fields: [ abstract]"}
+```
+
+**원인**: `_handle_get_citation`에서 `"fields": "citationStyles, abstract"` 요청 시
+citation 엔드포인트가 `abstract` 필드를 지원하지 않음
+
+**Workaround - Citation Helper 사용**:
+```bash
+# BibTeX 형식
+python scripts/citation-helper.py ARXIV:1706.03762 --format bibtex
+
+# APA 형식
+python scripts/citation-helper.py DOI:10.18653/v1/N19-1423 --format apa
+
+# MLA 형식
+python scripts/citation-helper.py ARXIV:2010.11929 --format mla
+
+# 논문 메타데이터 JSON 출력
+python scripts/citation-helper.py ARXIV:1706.03762 --json
+```
+
+**지원 형식**: bibtex, apa, mla, chicago
+
 ## Resources
 
 ### API Key 발급
