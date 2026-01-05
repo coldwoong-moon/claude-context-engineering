@@ -127,6 +127,7 @@ your-project/
 | `/code-simplifier` | 코드 단순화 및 리팩토링 |
 | `/verify-app` | 앱 검증 및 테스트 실행 |
 | `/research` | 심층 연구 모드 (학술 논문, 웹 리서치, 인용) |
+| `/review` | 비판적 리뷰 (피드백 + 피드포워드, 다중 관점 분석) |
 
 ## Supported Tools
 
@@ -383,6 +384,7 @@ Claude Code 세션에서 매직 키워드로 모드 자동 활성화:
 | `research` | `rs`, `/research`, `연구` | 심층 연구 모드 (학술 논문 + 웹 리서치) |
 | `security` | `sec`, `/security` | 보안 감사 모드 |
 | `refactor` | `rf`, `/refactor` | 리팩토링 모드 |
+| `review` | `/review`, `리뷰` | 비판적 리뷰 (피드백 + 피드포워드) |
 
 ### 암묵적 모드 (다국어 지원)
 

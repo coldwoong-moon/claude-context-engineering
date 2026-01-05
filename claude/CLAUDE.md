@@ -22,3 +22,4 @@
 | `research` | `rs`, `/research`, `연구` | 심층 연구 모드 (학술 논문, 웹 리서치) |
 | `security` | `sec`, `/security` | 보안 감사 모드 |
 | `refactor` | `rf`, `/refactor` | 리팩토링 모드 |
+| `review` | `/review`, `리뷰` | 비판적 리뷰 (피드백 + 피드포워드) |
