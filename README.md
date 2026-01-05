@@ -34,7 +34,8 @@ npm run doctor
 ──────────────────────────────────────────────────
 ✓ Python (python3)
 ✓ ~/.claude directory
-✓ Hooks directory (18 hooks)
+✓ Hooks directory (17 hooks)
+✓ Commands directory (4 commands)
 ✓ settings.json (Hooks configured)
 ✓ Claude Code CLI
 ──────────────────────────────────────────────────
@@ -67,21 +68,43 @@ npm run doctor
 
 ### 프로젝트 초기화
 
+**방법 1: 설치 스크립트 사용**
 ```bash
 # 프로젝트 디렉토리에서 실행
 cd your-project
+python ~/claude-context-engineering/scripts/setup.py project
+# 또는
 node ~/claude-context-engineering/scripts/setup.js project
-
-# 생성되는 구조:
-# your-project/
-# └── .claude/
-#     ├── CLAUDE.md          # 프로젝트 엔트리포인트
-#     └── knowledge/
-#         ├── context.md     # 프로젝트 컨텍스트
-#         ├── decisions.md   # 아키텍처 결정
-#         ├── patterns.md    # 코드 패턴
-#         └── errors.md      # 알려진 오류
 ```
+
+**방법 2: Claude Code 내에서 slash command 사용 (권장)**
+```bash
+# Claude Code 세션에서
+/migrate-context-engineering
+```
+
+생성되는 구조:
+```
+your-project/
+└── .claude/
+    ├── CLAUDE.md          # 프로젝트 엔트리포인트
+    └── knowledge/
+        ├── context.md     # 프로젝트 컨텍스트
+        ├── decisions.md   # 아키텍처 결정
+        ├── patterns.md    # 코드 패턴
+        └── errors.md      # 알려진 오류
+```
+
+### Slash Commands
+
+설치 시 자동으로 `~/.claude/commands/`에 설치되는 slash commands:
+
+| Command | 설명 |
+|---------|------|
+| `/migrate-context-engineering` | 프로젝트를 Context Engineering 구조로 마이그레이션 |
+| `/commit-push-pr` | 변경사항 커밋, 푸시, PR 생성 |
+| `/code-simplifier` | 코드 단순화 및 리팩토링 |
+| `/verify-app` | 앱 검증 및 테스트 실행 |
 
 ## Supported Tools
 
@@ -135,18 +158,29 @@ chmod +x scripts/*.sh
 
 ```
 claude-context-engineering/
-├── claude/                   # Claude Code 설정
-│   ├── hooks/                # Hook 스크립트 (9개)
-│   │   ├── session-start.py  # 세션 시작: Sync + Ultrathink
-│   │   ├── pre-bash.py       # Bash 실행 전 검증
-│   │   ├── post-bash.py      # 오류 자동 기록
-│   │   ├── pre-edit.py       # 파일 수정 전 검증
-│   │   ├── post-edit.py      # 수정 추적
-│   │   └── ...
-│   ├── agents/               # 커스텀 에이전트 (4개)
-│   ├── output-styles/        # 출력 스타일
-│   ├── settings.json         # 플러그인 & Hook 설정
-│   └── templates/            # 설정 템플릿
+├── hooks/                    # Hook 스크립트 (17개) - 설치 시 ~/.claude/hooks/로 복사
+│   ├── magic-keywords.py     # 매직 키워드 감지
+│   ├── continuation-enforcer.py  # 작업 완료 강제
+│   ├── context-window-monitor.py # 컨텍스트 모니터링
+│   ├── session-recovery.py   # 세션 복구
+│   └── ...
+│
+├── commands/                 # Slash Commands (4개) - 설치 시 ~/.claude/commands/로 복사
+│   ├── migrate-context-engineering.md
+│   ├── commit-push-pr.md
+│   ├── code-simplifier.md
+│   └── verify-app.md
+│
+├── scripts/                  # 설치 및 관리 스크립트
+│   ├── setup.py              # Python 설치 스크립트
+│   ├── setup.js              # Node.js 설치 스크립트
+│   ├── sync.sh               # 동기화 실행
+│   └── verify.sh             # 상태 확인
+│
+├── claude/                   # Claude Code 문서 및 설정
+│   ├── CLAUDE.md             # 엔트리포인트
+│   ├── CROSS-PLATFORM.md     # 크로스 플랫폼 가이드
+│   └── ORCHESTRATOR-AGENTS.md # 에이전트 오케스트레이션
 │
 ├── gemini/                   # Gemini CLI 설정
 │   ├── settings.json         # UI/보안 설정
@@ -158,10 +192,7 @@ claude-context-engineering/
 │   ├── prompts/              # 커스텀 프롬프트
 │   └── skills/               # 스킬 정의
 │
-├── scripts/
-│   ├── sync.sh               # 동기화 실행
-│   └── verify.sh             # 상태 확인
-│
+├── package.json              # npm 패키지 설정
 ├── VERSION                   # 버전 정보
 └── README.md
 ```

@@ -31,6 +31,7 @@ IS_LINUX = platform.system() == "Linux"
 HOME_DIR = Path.home()
 CLAUDE_DIR = HOME_DIR / ".claude"
 HOOKS_DIR = CLAUDE_DIR / "hooks"
+COMMANDS_DIR = CLAUDE_DIR / "commands"
 SETTINGS_FILE = CLAUDE_DIR / "settings.json"
 
 SCRIPT_DIR = Path(__file__).parent.resolve()
@@ -351,6 +352,34 @@ def output_context(context):
     return True
 
 
+def install_commands() -> bool:
+    """Install commands to ~/.claude/commands"""
+    log("\n📋 Installing commands...", Colors.BOLD)
+
+    source_commands_dir = REPO_ROOT / "commands"
+
+    if not source_commands_dir.exists():
+        log_warning("No commands source found in repository.")
+        return True
+
+    # Copy commands
+    ensure_dir(COMMANDS_DIR)
+
+    command_count = 0
+    for cmd_file in source_commands_dir.glob("*.md"):
+        dest_file = COMMANDS_DIR / cmd_file.name
+        shutil.copy(cmd_file, dest_file)
+        command_count += 1
+
+    log_success(f"Installed {command_count} commands to {COMMANDS_DIR}")
+    log_info("Available commands:")
+    for cmd_file in COMMANDS_DIR.glob("*.md"):
+        cmd_name = cmd_file.stem
+        log(f"  /{cmd_name}", Colors.CYAN)
+
+    return True
+
+
 def configure_settings() -> bool:
     """Configure settings.json with hooks"""
     log("\n⚙️  Configuring settings.json...", Colors.BOLD)
@@ -506,6 +535,13 @@ def run_doctor() -> bool:
     else:
         checks.append({"name": "Hooks directory", "status": "warning", "detail": "Not found"})
 
+    # Check commands directory
+    if COMMANDS_DIR.exists():
+        cmd_files = list(COMMANDS_DIR.glob("*.md"))
+        checks.append({"name": "Commands directory", "status": "ok", "detail": f"{len(cmd_files)} commands"})
+    else:
+        checks.append({"name": "Commands directory", "status": "warning", "detail": "Not found"})
+
     # Check settings.json
     if SETTINGS_FILE.exists():
         settings = read_json(SETTINGS_FILE)
@@ -567,6 +603,7 @@ def install() -> bool:
 
     steps = [
         ("Installing hooks", install_hooks),
+        ("Installing commands", install_commands),
         ("Configuring settings", configure_settings),
     ]
 

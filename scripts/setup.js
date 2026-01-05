@@ -27,6 +27,7 @@ const IS_LINUX = process.platform === 'linux';
 const HOME_DIR = os.homedir();
 const CLAUDE_DIR = path.join(HOME_DIR, '.claude');
 const HOOKS_DIR = path.join(CLAUDE_DIR, 'hooks');
+const COMMANDS_DIR = path.join(CLAUDE_DIR, 'commands');
 const SETTINGS_FILE = path.join(CLAUDE_DIR, 'settings.json');
 
 const SCRIPT_DIR = __dirname;
@@ -354,6 +355,40 @@ def output_context(context):
   return true;
 }
 
+async function installCommands() {
+  log('\n📋 Installing commands...', colors.bright);
+
+  const sourceCommandsDir = path.join(REPO_ROOT, 'commands');
+
+  if (!fileExists(sourceCommandsDir)) {
+    logWarning('No commands source found in repository.');
+    return true;
+  }
+
+  // Copy commands
+  ensureDir(COMMANDS_DIR);
+
+  let commandCount = 0;
+  const commandFiles = fs.readdirSync(sourceCommandsDir).filter(f => f.endsWith('.md'));
+
+  for (const cmdFile of commandFiles) {
+    const srcPath = path.join(sourceCommandsDir, cmdFile);
+    const destPath = path.join(COMMANDS_DIR, cmdFile);
+    copyFile(srcPath, destPath);
+    commandCount++;
+  }
+
+  logSuccess(`Installed ${commandCount} commands to ${COMMANDS_DIR}`);
+  logInfo('Available commands:');
+
+  for (const cmdFile of commandFiles) {
+    const cmdName = path.basename(cmdFile, '.md');
+    log(`  /${cmdName}`, colors.cyan);
+  }
+
+  return true;
+}
+
 async function configureSettings() {
   log('\n⚙️  Configuring settings.json...', colors.bright);
 
@@ -515,6 +550,14 @@ async function runDoctor() {
     checks.push({ name: 'Hooks directory', status: 'warning', detail: 'Not found' });
   }
 
+  // Check commands directory
+  if (fileExists(COMMANDS_DIR)) {
+    const cmdFiles = fs.readdirSync(COMMANDS_DIR).filter(f => f.endsWith('.md'));
+    checks.push({ name: 'Commands directory', status: 'ok', detail: `${cmdFiles.length} commands` });
+  } else {
+    checks.push({ name: 'Commands directory', status: 'warning', detail: 'Not found' });
+  }
+
   // Check settings.json
   if (fileExists(SETTINGS_FILE)) {
     const settings = readJson(SETTINGS_FILE);
@@ -583,6 +626,7 @@ async function install() {
 
   const steps = [
     { name: 'Installing hooks', fn: installHooks },
+    { name: 'Installing commands', fn: installCommands },
     { name: 'Configuring settings', fn: configureSettings },
   ];
 
