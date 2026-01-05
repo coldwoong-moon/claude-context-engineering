@@ -369,6 +369,8 @@ def install_commands() -> bool:
     for cmd_file in source_commands_dir.glob("*.md"):
         dest_file = COMMANDS_DIR / cmd_file.name
         shutil.copy(cmd_file, dest_file)
+        # Ensure readable permissions (644)
+        dest_file.chmod(0o644)
         command_count += 1
 
     log_success(f"Installed {command_count} commands to {COMMANDS_DIR}")

@@ -375,6 +375,8 @@ async function installCommands() {
     const srcPath = path.join(sourceCommandsDir, cmdFile);
     const destPath = path.join(COMMANDS_DIR, cmdFile);
     copyFile(srcPath, destPath);
+    // Ensure readable permissions (644)
+    fs.chmodSync(destPath, 0o644);
     commandCount++;
   }
 
