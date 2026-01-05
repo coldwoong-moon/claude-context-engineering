@@ -27,6 +27,23 @@ python scripts/setup.py doctor
 npm run doctor
 ```
 
+### 기존 설치 업데이트
+
+이미 설치된 환경에서 최신 버전으로 업데이트:
+
+```bash
+cd claude-context-engineering
+git pull  # 또는 update 명령어가 자동으로 실행
+
+# Python
+python scripts/setup.py update
+
+# 또는 Node.js
+npm run update
+```
+
+> `update` 명령어는 settings.json을 유지하고 hooks와 commands만 업데이트합니다.
+
 ### 설치 확인
 
 ```
@@ -48,8 +65,10 @@ npm run doctor
 
 | 명령어 | 설명 |
 |--------|------|
-| `python scripts/setup.py install` | 전체 설치 |
+| `python scripts/setup.py install` | 전체 설치 (hooks + commands + config) |
+| `python scripts/setup.py update` | 기존 설치 업데이트 (git pull + hooks + commands) |
 | `python scripts/setup.py hooks` | hooks만 설치 |
+| `python scripts/setup.py commands` | commands만 설치 |
 | `python scripts/setup.py config` | settings.json만 설정 |
 | `python scripts/setup.py project` | 현재 프로젝트 초기화 |
 | `python scripts/setup.py doctor` | 설치 진단 |
@@ -59,8 +78,10 @@ npm run doctor
 
 | 명령어 | 설명 |
 |--------|------|
-| `npm run setup` | 전체 설치 (hooks + settings.json) |
+| `npm run setup` | 전체 설치 (hooks + commands + config) |
+| `npm run update` | 기존 설치 업데이트 (git pull + hooks + commands) |
 | `npm run setup:hooks` | hooks만 설치 |
+| `npm run setup:commands` | commands만 설치 |
 | `npm run setup:config` | settings.json만 설정 |
 | `npm run setup:project` | 현재 프로젝트를 Claude 프로젝트로 초기화 |
 | `npm run doctor` | 설치 진단 및 문제 확인 |
