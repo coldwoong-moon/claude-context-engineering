@@ -1,4 +1,7 @@
-# /migrate-context-engineering
+---
+description: 프로젝트를 Context Engineering 구조로 마이그레이션
+argument-hint: [--template node|python|rust|go] [--backup] [--force]
+---
 
 프로젝트를 Context Engineering 기준으로 마이그레이션하는 명령어
 

@@ -1,4 +1,7 @@
-# /code-simplifier
+---
+description: 코드 단순화 및 정리 워크플로우
+argument-hint: [@file-or-directory]
+---
 
 코드 단순화 및 정리 워크플로우
 

@@ -1,4 +1,7 @@
-# /verify-app
+---
+description: 애플리케이션 검증 워크플로우 (lint, test, build)
+argument-hint: [--skip-tests] [--skip-build]
+---
 
 애플리케이션 검증 워크플로우
 

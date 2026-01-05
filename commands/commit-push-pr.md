@@ -1,4 +1,7 @@
-# /commit-push-pr
+---
+description: Git 워크플로우 자동화 (커밋 → 푸시 → PR 생성)
+argument-hint: [--draft] [--no-push] [--amend]
+---
 
 Git 워크플로우 자동화: 커밋 → 푸시 → PR 생성
 
