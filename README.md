@@ -126,6 +126,7 @@ your-project/
 | `/commit-push-pr` | 변경사항 커밋, 푸시, PR 생성 |
 | `/code-simplifier` | 코드 단순화 및 리팩토링 |
 | `/verify-app` | 앱 검증 및 테스트 실행 |
+| `/research` | 심층 연구 모드 (학술 논문, 웹 리서치, 인용) |
 
 ## Supported Tools
 
@@ -186,22 +187,27 @@ claude-context-engineering/
 │   ├── session-recovery.py   # 세션 복구
 │   └── ...
 │
-├── commands/                 # Slash Commands (4개) - 설치 시 ~/.claude/commands/로 복사
+├── commands/                 # Slash Commands (5개) - 설치 시 ~/.claude/commands/로 복사
 │   ├── migrate-context-engineering.md
 │   ├── commit-push-pr.md
 │   ├── code-simplifier.md
-│   └── verify-app.md
+│   ├── verify-app.md
+│   └── research.md           # 심층 연구 모드
 │
 ├── scripts/                  # 설치 및 관리 스크립트
 │   ├── setup.py              # Python 설치 스크립트
 │   ├── setup.js              # Node.js 설치 스크립트
+│   ├── install-research-mcp.sh  # Research MCP 설치
 │   ├── sync.sh               # 동기화 실행
 │   └── verify.sh             # 상태 확인
 │
 ├── claude/                   # Claude Code 문서 및 설정
 │   ├── CLAUDE.md             # 엔트리포인트
 │   ├── CROSS-PLATFORM.md     # 크로스 플랫폼 가이드
-│   └── ORCHESTRATOR-AGENTS.md # 에이전트 오케스트레이션
+│   ├── RESEARCH-MODE.md      # 심층 연구 모드 가이드
+│   ├── ORCHESTRATOR-AGENTS.md # 에이전트 오케스트레이션
+│   └── mcp/                  # MCP 서버 설정
+│       └── research-servers.json  # Research MCP 설정
 │
 ├── gemini/                   # Gemini CLI 설정
 │   ├── settings.json         # UI/보안 설정
@@ -374,7 +380,7 @@ Claude Code 세션에서 매직 키워드로 모드 자동 활성화:
 | `ultrawork` | `ulw`, `/ultra` | 전체 기능 최대 활성화 (TDD + TODO 필수) |
 | `deepwork` | `dw`, `/deep` | 깊은 분석 모드 |
 | `quickfix` | `qf`, `/quick` | 빠른 수정 모드 |
-| `research` | `rs`, `/research` | 리서치 모드 |
+| `research` | `rs`, `/research`, `연구` | 심층 연구 모드 (학술 논문 + 웹 리서치) |
 | `security` | `sec`, `/security` | 보안 감사 모드 |
 | `refactor` | `rf`, `/refactor` | 리팩토링 모드 |
 
@@ -412,6 +418,62 @@ Claude Code 세션에서 매직 키워드로 모드 자동 활성화:
 | Linux | `python` / `python3` | `~` | ✅ 지원 |
 
 자세한 플랫폼별 설정은 [CROSS-PLATFORM.md](claude/CROSS-PLATFORM.md) 참조.
+
+## Research Mode (심층 연구 모드)
+
+학술 논문, 기술 문서, 웹 리소스를 체계적으로 탐색하고 분석하는 특화 모드입니다.
+
+### MCP 서버 설치
+
+```bash
+# Research MCP 서버 설치
+./scripts/install-research-mcp.sh
+
+# 개별 설치
+./scripts/install-research-mcp.sh --semantic  # Semantic Scholar만
+./scripts/install-research-mcp.sh --paper     # Paper Search만
+./scripts/install-research-mcp.sh --deep      # Deep Research만
+
+# 설치 상태 확인
+./scripts/install-research-mcp.sh --check
+```
+
+### 지원 MCP 서버
+
+| Server | Source | 기능 |
+|--------|--------|------|
+| **Semantic Scholar** | 학술 논문 | DOI/arXiv 검색, 인용 분석, BibTeX 내보내기 |
+| **Paper Search** | arXiv, PubMed, bioRxiv | 다중 소스 논문 검색, PDF 다운로드 |
+| **Deep Research** | 웹 + 학술 | 통합 연구, 소스 검증 |
+
+### 사용법
+
+```bash
+# 학술 논문 중심 연구
+/research "transformer attention mechanisms" --academic
+
+# 웹 + 학술 통합 연구
+/research "LLM agents for code generation" --web --academic
+
+# BibTeX 인용 포함
+/research "retrieval augmented generation" --cite bibtex
+
+# 매직 키워드로 활성화
+research: <topic>
+연구: <topic>
+```
+
+### Source Credibility Matrix
+
+| Tier | Source | Trust Score |
+|------|--------|-------------|
+| 1 | Peer-reviewed journals, Top conferences | 95% |
+| 2 | arXiv (>50 citations), Workshop papers | 80% |
+| 3 | Recent arXiv, Official docs | 65% |
+| 4 | Blogs, Forums | 40% |
+| 5 | Unattributed content | 10% |
+
+자세한 내용은 [RESEARCH-MODE.md](claude/RESEARCH-MODE.md) 참조.
 
 ## Philosophy
 
