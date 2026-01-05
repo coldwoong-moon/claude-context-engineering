@@ -9,7 +9,9 @@
   },
   "scripts": {
     "setup": "node scripts/setup.js install",
+    "update": "node scripts/setup.js update",
     "setup:hooks": "node scripts/setup.js hooks",
+    "setup:commands": "node scripts/setup.js commands",
     "setup:config": "node scripts/setup.js config",
     "setup:project": "node scripts/setup.js project",
     "uninstall": "node scripts/setup.js uninstall",
@@ -31,6 +33,7 @@
   "files": [
     "scripts/",
     "hooks/",
+    "commands/",
     "claude/",
     "templates/"
   ]

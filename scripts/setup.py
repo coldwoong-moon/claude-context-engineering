@@ -627,6 +627,62 @@ def install() -> bool:
     return True
 
 
+def update() -> bool:
+    """Update existing installation from repository"""
+    log("\n🔄 Claude Context Engineering Update", Colors.BOLD + Colors.CYAN)
+    log("═" * 50)
+
+    # Check if we're in a git repository
+    git_dir = REPO_ROOT / ".git"
+    if not git_dir.exists():
+        log_error("Not in a git repository. Cannot update.")
+        log_info("Please run 'git clone' first or update manually.")
+        return False
+
+    # Pull latest changes
+    log("\n📥 Pulling latest changes...", Colors.BOLD)
+    try:
+        result = subprocess.run(
+            ["git", "-C", str(REPO_ROOT), "pull", "--ff-only"],
+            capture_output=True,
+            text=True
+        )
+        if result.returncode == 0:
+            if "Already up to date" in result.stdout:
+                log_info("Already up to date.")
+            else:
+                log_success("Pulled latest changes")
+                log(result.stdout.strip(), Colors.CYAN)
+        else:
+            log_warning("Git pull failed (may have local changes)")
+            log(result.stderr.strip(), Colors.YELLOW)
+            log_info("Continuing with local files...")
+    except FileNotFoundError:
+        log_warning("Git not found. Skipping pull.")
+        log_info("Continuing with local files...")
+
+    # Re-install hooks and commands
+    steps = [
+        ("Updating hooks", install_hooks),
+        ("Updating commands", install_commands),
+    ]
+
+    for i, (name, fn) in enumerate(steps, 1):
+        log_step(i, len(steps), name)
+        try:
+            fn()
+        except Exception as e:
+            log_error(f"Failed: {e}")
+            return False
+
+    log("\n" + "═" * 50)
+    log_success("Update complete!")
+    log_info("Settings.json preserved. Run 'config' to update settings if needed.")
+    log_info("Restart Claude Code sessions to apply changes.")
+
+    return True
+
+
 # ═══════════════════════════════════════════════════════════════════════════
 # CLI
 # ═══════════════════════════════════════════════════════════════════════════
@@ -640,8 +696,10 @@ def print_help():
   python scripts/setup.py <command>
 
 {Colors.BOLD}Commands:{Colors.RESET}
-  install     Full installation (hooks + config)
+  install     Full installation (hooks + commands + config)
+  update      Update hooks and commands from repository
   hooks       Install hooks only
+  commands    Install commands only
   config      Configure settings.json only
   project     Initialize current directory as Claude project
   doctor      Verify installation and diagnose issues
@@ -665,8 +723,12 @@ def main():
     try:
         if command == "install":
             install()
+        elif command == "update":
+            update()
         elif command == "hooks":
             install_hooks()
+        elif command == "commands":
+            install_commands()
         elif command == "config":
             configure_settings()
         elif command in ("project", "init"):

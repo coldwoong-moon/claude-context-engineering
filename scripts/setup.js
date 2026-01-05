@@ -656,6 +656,69 @@ async function install() {
   return true;
 }
 
+async function update() {
+  log('\n🔄 Claude Context Engineering Update', colors.bright + colors.cyan);
+  log('═'.repeat(50));
+
+  // Check if we're in a git repository
+  const gitDir = path.join(REPO_ROOT, '.git');
+  if (!fileExists(gitDir)) {
+    logError('Not in a git repository. Cannot update.');
+    logInfo('Please run "git clone" first or update manually.');
+    return false;
+  }
+
+  // Pull latest changes
+  log('\n📥 Pulling latest changes...', colors.bright);
+  try {
+    const result = execSync(`git -C "${REPO_ROOT}" pull --ff-only`, {
+      encoding: 'utf-8',
+      stdio: ['pipe', 'pipe', 'pipe']
+    });
+    if (result.includes('Already up to date')) {
+      logInfo('Already up to date.');
+    } else {
+      logSuccess('Pulled latest changes');
+      log(result.trim(), colors.cyan);
+    }
+  } catch (err) {
+    if (err.stderr) {
+      logWarning('Git pull failed (may have local changes)');
+      log(err.stderr.trim(), colors.yellow);
+    } else {
+      logWarning('Git not found. Skipping pull.');
+    }
+    logInfo('Continuing with local files...');
+  }
+
+  // Re-install hooks and commands
+  const steps = [
+    { name: 'Updating hooks', fn: installHooks },
+    { name: 'Updating commands', fn: installCommands },
+  ];
+
+  const total = steps.length;
+
+  for (let i = 0; i < steps.length; i++) {
+    const step = steps[i];
+    logStep(i + 1, total, step.name);
+
+    try {
+      await step.fn();
+    } catch (err) {
+      logError(`Failed: ${err.message}`);
+      return false;
+    }
+  }
+
+  log('\n' + '═'.repeat(50));
+  logSuccess('Update complete!');
+  logInfo('Settings.json preserved. Run "config" to update settings if needed.');
+  logInfo('Restart Claude Code sessions to apply changes.');
+
+  return true;
+}
+
 // ═══════════════════════════════════════════════════════════════════════════
 // CLI
 // ═══════════════════════════════════════════════════════════════════════════
@@ -668,8 +731,10 @@ ${colors.bright}Usage:${colors.reset}
   npx claude-context-engineering <command>
 
 ${colors.bright}Commands:${colors.reset}
-  install     Full installation (hooks + config)
+  install     Full installation (hooks + commands + config)
+  update      Update hooks and commands from repository
   hooks       Install hooks only
+  commands    Install commands only
   config      Configure settings.json only
   project     Initialize current directory as Claude project
   doctor      Verify installation and diagnose issues
@@ -695,8 +760,14 @@ async function main() {
       case 'install':
         await install();
         break;
+      case 'update':
+        await update();
+        break;
       case 'hooks':
         await installHooks();
+        break;
+      case 'commands':
+        await installCommands();
         break;
       case 'config':
         await configureSettings();
