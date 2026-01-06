@@ -277,6 +277,80 @@ current: "최신 연구 동향 우선"
 """
     },
 
+    # === CONTINUOUS: 연속 실행 모드 ===
+    "continuous": {
+        "aliases": ["loop", "/continuous", "/loop", "연속", "루프"],
+        "description": "연속 루프 실행 모드 (Continuous Claude)",
+        "activation": {
+            "thinking": "--think",
+            "mcp": ["Sequential"],
+            "flags": ["--delegate auto", "--loop"],
+            "persona": "analyzer",
+        },
+        "behavioral_rules": """
+## CONTINUOUS Mode Behavioral Rules
+
+### Core Philosophy (Anand Chowdhary)
+```yaml
+relay_race: "릴레이 경주처럼 바톤을 넘기는 방식"
+single_progress: "한 번에 하나의 의미 있는 진전"
+external_memory: "HANDOFF.md로 컨텍스트 드리프트 방지"
+trust_rules: "AI를 믿지 말고 저장소 규칙을 믿어라"
+```
+
+### HANDOFF.md Management
+1. **매 실행 시작**: HANDOFF.md 읽고 이전 진행 상황 파악
+2. **작업 중**: 한 가지에서만 의미 있는 진전
+3. **매 실행 종료**: HANDOFF.md 업데이트 (다음 단계 명시)
+4. **완료 시**: 상태를 CONTINUOUS_COMPLETE로 변경
+
+### Handoff Structure
+- Current Goal: 현재 목표
+- Completed in This Run: 이번 완료 작업
+- Next Steps for Next Run: 다음 단계 (우선순위 순)
+- Blockers & Notes: 주의사항
+- Progress Metrics: Run #, 시간, 수정 파일 수
+- Status: CONTINUING 또는 CONTINUOUS_COMPLETE
+
+### Prompting Best Practices
+✅ DO:
+- "한 번에 하나의 테스트 파일만 추가"
+- "가장 커버리지가 낮은 파일부터"
+- "다음 파일을 HANDOFF.md에 기록"
+
+❌ DON'T:
+- "모든 테스트를 작성해" (너무 광범위)
+- "완벽하게 리팩토링해" (완료 기준 모호)
+
+### Completion Signal
+완료 시 다음 중 하나를 출력:
+- CONTINUOUS_COMPLETE
+- [LOOP_COMPLETE]
+- [CONTINUOUS_DONE]
+""",
+        "message": """
+🔄 **CONTINUOUS MODE ACTIVATED**
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✓ External Memory (HANDOFF.md)
+✓ Single Progress Per Run
+✓ Relay Race Pattern
+✓ Completion Signal System
+
+📋 **Workflow:**
+1. HANDOFF.md 읽기 (이전 진행 상황)
+2. 하나의 의미 있는 진전
+3. HANDOFF.md 업데이트 (다음 단계)
+4. 완료 시 CONTINUOUS_COMPLETE
+
+🛠️ **CLI Usage:**
+./scripts/continuous-claude.sh "task" --max-runs 10
+./scripts/continuous-claude.sh "task" --pr-loop --auto-merge
+
+💡 "릴레이 경주처럼 바톤을 넘기세요."
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+"""
+    },
+
     # === REVIEW: 비판적 리뷰 모드 ===
     "review": {
         "aliases": ["/review", "리뷰", "코드리뷰", "피드백"],

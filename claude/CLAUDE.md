@@ -11,6 +11,7 @@
 @MODES.md
 @CROSS-PLATFORM.md
 @RESEARCH-MODE.md
+@CONTINUOUS-CLAUDE.md
 
 ## Magic Keywords (oh-my-opencode 패턴)
 
@@ -23,3 +24,4 @@
 | `security` | `sec`, `/security` | 보안 감사 모드 |
 | `refactor` | `rf`, `/refactor` | 리팩토링 모드 |
 | `review` | `/review`, `리뷰` | 비판적 리뷰 (피드백 + 피드포워드) |
+| `continuous` | `loop`, `연속`, `루프` | 연속 실행 모드 (Continuous Claude) |

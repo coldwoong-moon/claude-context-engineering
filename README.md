@@ -385,6 +385,7 @@ Claude Code 세션에서 매직 키워드로 모드 자동 활성화:
 | `security` | `sec`, `/security` | 보안 감사 모드 |
 | `refactor` | `rf`, `/refactor` | 리팩토링 모드 |
 | `review` | `/review`, `리뷰` | 비판적 리뷰 (피드백 + 피드포워드) |
+| `continuous` | `loop`, `연속`, `루프` | 연속 실행 모드 (Continuous Claude) |
 
 ### 암묵적 모드 (다국어 지원)
 
@@ -476,6 +477,86 @@ research: <topic>
 | 5 | Unattributed content | 10% |
 
 자세한 내용은 [RESEARCH-MODE.md](claude/RESEARCH-MODE.md) 참조.
+
+## Continuous Claude (24시간 연속 실행)
+
+Claude를 무한 루프로 실행하여 복잡한 작업을 자동으로 완료하는 시스템입니다.
+
+> "릴레이 경주처럼 바톤을 넘기는 방식으로, 한 번에 하나의 의미 있는 진전을 만든다"
+> — [Running Claude Code in a loop](https://anandchowdhary.com/blog/2025/running-claude-code-in-a-loop)
+
+### Quick Start
+
+```bash
+# 기본 연속 실행
+./scripts/continuous-claude.sh "테스트 커버리지를 80%까지 높여주세요" --max-runs 10
+
+# PR 기반 안전한 자동화
+./scripts/continuous-claude.sh "의존성 업그레이드" --pr-loop --auto-merge
+
+# Claude Code 내에서
+/continuous "기술 부채 해결" --max-duration 2h
+```
+
+### Core Concepts
+
+| Concept | Description |
+|---------|-------------|
+| **External Memory** | HANDOFF.md로 실행 간 상태 전달 |
+| **Single Progress** | 한 번에 하나의 의미 있는 진전만 |
+| **Relay Race** | 바톤을 넘기듯 컨텍스트 전달 |
+| **Completion Signal** | `CONTINUOUS_COMPLETE`로 완료 표시 |
+
+### HANDOFF.md (외부 메모리)
+
+각 실행 간 상태를 전달하는 파일:
+
+```markdown
+## Current Goal
+테스트 커버리지 80% 달성
+
+## Completed in This Run
+- [x] user.service.ts 테스트 추가
+
+## Next Steps for Next Run
+1. auth.service.ts 테스트 추가
+2. api.controller.ts 테스트 추가
+
+## Status
+`CONTINUING`  # 또는 `CONTINUOUS_COMPLETE`
+```
+
+### PR Loop (Safe Mode)
+
+GitHub 워크플로우를 활용한 안전한 자동화:
+
+```
+Branch → Claude Execute → Create PR → Wait CI → Merge/Discard → Repeat
+```
+
+```bash
+./scripts/continuous-claude.sh "마이그레이션" --pr-loop --auto-merge
+```
+
+### Options
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `--max-runs` | 10 | 최대 반복 횟수 |
+| `--max-cost` | 10 | 최대 비용 (USD) |
+| `--max-duration` | 1h | 최대 실행 시간 |
+| `--pr-loop` | false | PR 기반 안전 모드 |
+| `--auto-merge` | false | CI 통과 시 자동 병합 |
+| `--handoff-file` | .claude/HANDOFF.md | 외부 메모리 경로 |
+
+### Use Cases
+
+- **테스트 커버리지 증가**: 주말 동안 20개 테스트 파일 자동 추가
+- **의존성 업그레이드**: CI 검증된 안전한 업그레이드
+- **기술 부채 해결**: TODO 주석 점진적 해결
+- **대규모 마이그레이션**: 클래스 → 함수형 컴포넌트 변환
+
+자세한 내용은 [CONTINUOUS-CLAUDE.md](claude/CONTINUOUS-CLAUDE.md) 참조.
 
 ## Philosophy
 
