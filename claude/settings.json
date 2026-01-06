@@ -263,6 +263,11 @@
         "hooks": [
           {
             "type": "command",
+            "command": "python3 ~/.claude/hooks/continuous-loop.py",
+            "timeout": 5
+          },
+          {
+            "type": "command",
             "command": "CLAUDE_HOOK_EVENT=Stop python3 ~/.claude/hooks/continuation-enforcer.py",
             "timeout": 5
           },
