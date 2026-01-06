@@ -234,6 +234,11 @@
           },
           {
             "type": "command",
+            "command": "python3 ~/.claude/hooks/verification-loop.py",
+            "timeout": 5
+          },
+          {
+            "type": "command",
             "command": "CLAUDE_HOOK_EVENT=SubagentStop python3 ~/.claude/hooks/continuation-enforcer.py",
             "timeout": 5
           }
@@ -261,6 +266,11 @@
       {
         "matcher": "",
         "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ~/.claude/hooks/ralph-loop.py",
+            "timeout": 5
+          },
           {
             "type": "command",
             "command": "python3 ~/.claude/hooks/continuous-loop.py",
