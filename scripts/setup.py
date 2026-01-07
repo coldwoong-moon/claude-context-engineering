@@ -73,7 +73,12 @@ Colors.disable()
 
 
 def log(message: str, color: str = ""):
-    print(f"{color}{message}{Colors.RESET}")
+    try:
+        print(f"{color}{message}{Colors.RESET}")
+    except UnicodeEncodeError:
+        # Fallback for Windows consoles that don't support Unicode
+        ascii_message = message.encode('ascii', 'replace').decode('ascii')
+        print(f"{color}{ascii_message}{Colors.RESET}")
 
 
 def log_success(message: str):
