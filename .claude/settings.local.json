@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh pr list:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nfix\\(setup\\): Correct source paths for hooks and commands\n\n- Change source_hooks_dir from REPO_ROOT/hooks to REPO_ROOT/claude/hooks\n- Change source_commands_dir from REPO_ROOT/commands to REPO_ROOT/claude/commands\n- This fixes the issue where update\\(\\) showed no changes\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git checkout:*)",
+      "Bash(git merge:*)",
+      "Bash(git push:*)",
+      "Bash(python scripts/setup.py:*)",
+      "Bash(git commit:*)",
+      "Bash(xxd:*)",
+      "Bash(for:*)",
+      "Bash(do sed -i 's/\\\\r$//' \"$f\")",
+      "Bash(done)"
+    ]
+  }
+}

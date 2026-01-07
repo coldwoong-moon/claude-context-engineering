@@ -373,7 +373,10 @@ def install_commands() -> bool:
     command_count = 0
     for cmd_file in source_commands_dir.glob("*.md"):
         dest_file = COMMANDS_DIR / cmd_file.name
-        shutil.copy(cmd_file, dest_file)
+        # Read and convert CRLF to LF (Claude Code requires LF for YAML frontmatter)
+        content = cmd_file.read_text(encoding="utf-8")
+        content = content.replace("\r\n", "\n").replace("\r", "\n")
+        dest_file.write_text(content, encoding="utf-8", newline="\n")
         # Ensure readable permissions (644)
         dest_file.chmod(0o644)
         command_count += 1
