@@ -188,12 +188,18 @@ claude-context-engineering/
 │   ├── session-recovery.py   # 세션 복구
 │   └── ...
 │
-├── commands/                 # Slash Commands (5개) - 설치 시 ~/.claude/commands/로 복사
-│   ├── migrate-context-engineering.md
-│   ├── commit-push-pr.md
-│   ├── code-simplifier.md
-│   ├── verify-app.md
-│   └── research.md           # 심층 연구 모드
+├── commands/                 # Slash Commands (11개) - 설치 시 ~/.claude/commands/로 복사
+│   ├── continuous.md         # 연속 루프 실행
+│   ├── loop.md               # 통합 에이전트 루프
+│   ├── ralph-loop.md         # Ralph Wiggum 자율 루프
+│   ├── cancel-ralph.md       # Ralph 루프 취소
+│   ├── research.md           # 심층 연구 모드
+│   ├── review.md             # 비판적 리뷰
+│   ├── critical-review.md    # 다중 관점 리뷰
+│   ├── commit-push-pr.md     # Git 워크플로우
+│   ├── code-simplifier.md    # 코드 단순화
+│   ├── verify-app.md         # 앱 검증
+│   └── migrate-context-engineering.md
 │
 ├── scripts/                  # 설치 및 관리 스크립트
 │   ├── setup.py              # Python 설치 스크립트
