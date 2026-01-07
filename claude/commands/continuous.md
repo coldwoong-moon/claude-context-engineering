@@ -1,3 +1,9 @@
+---
+description: Continuous Claude Loop - HANDOFF.md 기반 릴레이 방식 연속 실행
+allowed-tools: Bash, Read, Write, Edit, Glob, Grep, TodoWrite
+model: sonnet
+---
+
 # /continuous - Continuous Claude Loop Execution
 
 연속 루프 기반 작업 실행 시스템입니다. Claude를 무한 루프로 실행하여 복잡한 작업을 자동으로 완료합니다.

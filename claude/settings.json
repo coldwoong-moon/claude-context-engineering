@@ -66,25 +66,15 @@
     "explore@claude-code-marketplace": true,
     "plan@claude-code-marketplace": true,
     "code-review@claude-code-marketplace": true,
-    "code-review@claude-code-plugins": true,
     "audit@claude-code-marketplace": true,
     "bug-detective@claude-code-marketplace": true,
-    "double-check@claude-code-marketplace": true,
     "commit@claude-code-marketplace": true,
     "pr-review@claude-code-marketplace": true,
-    "pr-review-toolkit@claude-code-plugins": true,
-    "create-pr@claude-code-marketplace": true,
     "fix-issue@claude-code-marketplace": true,
     "debugger@claude-code-marketplace": true,
     "test-file@claude-code-marketplace": true,
-    "unit-test-generator@claude-code-marketplace": true,
-    "refractor@claude-code-marketplace": true,
-    "optimize@claude-code-marketplace": true,
-    "documentation-generator@claude-code-marketplace": true,
     "analyze-codebase@claude-code-marketplace": true,
     "security-guidance@claude-code-plugins": true,
-    "agent-sdk-dev@claude-code-plugins": true,
-    "claude-mem@thedotmack": true,
     "experienced-engineer@claude-code-marketplace": true
   },
   "alwaysThinkingEnabled": true,
@@ -197,17 +187,7 @@
           },
           {
             "type": "command",
-            "command": "python3 ~/.claude/hooks/continuous-research.py",
-            "timeout": 5
-          },
-          {
-            "type": "command",
-            "command": "python3 ~/.claude/hooks/continuous-review.py",
-            "timeout": 5
-          },
-          {
-            "type": "command",
-            "command": "CLAUDE_HOOK_EVENT=SubagentStop python3 ~/.claude/hooks/continuation-enforcer.py",
+            "command": "python3 ~/.claude/hooks/unified-loop.py",
             "timeout": 5
           }
         ]
@@ -236,32 +216,13 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ~/.claude/hooks/ralph-loop.py",
+            "command": "python3 ~/.claude/hooks/unified-loop.py",
             "timeout": 5
           },
           {
             "type": "command",
-            "command": "python3 ~/.claude/hooks/continuous-loop.py",
+            "command": "python3 ~/.claude/hooks/stop.py",
             "timeout": 5
-          },
-          {
-            "type": "command",
-            "command": "python3 ~/.claude/hooks/continuous-research.py",
-            "timeout": 5
-          },
-          {
-            "type": "command",
-            "command": "python3 ~/.claude/hooks/continuous-review.py",
-            "timeout": 5
-          },
-          {
-            "type": "command",
-            "command": "CLAUDE_HOOK_EVENT=Stop python3 ~/.claude/hooks/continuation-enforcer.py",
-            "timeout": 5
-          },
-          {
-            "type": "command",
-            "command": "python3 ~/.claude/hooks/stop.py"
           }
         ]
       }
