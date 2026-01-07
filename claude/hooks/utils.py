@@ -9,13 +9,90 @@
 - 날조 임계점 검증
 - 오류 분류
 - 로깅 유틸리티
+- 크로스플랫폼 호환성 (Windows, macOS, Linux)
 """
 import json
 import os
 import re
+import sys
+import platform
 from pathlib import Path
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Union
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# 크로스플랫폼 호환성
+# ═══════════════════════════════════════════════════════════════════════════
+
+PLATFORM = platform.system().lower()  # 'windows', 'darwin', 'linux'
+IS_WINDOWS = PLATFORM == 'windows'
+IS_MACOS = PLATFORM == 'darwin'
+IS_LINUX = PLATFORM == 'linux'
+
+
+def get_home_dir() -> Path:
+    """크로스플랫폼 홈 디렉토리"""
+    if IS_WINDOWS:
+        return Path(os.environ.get('USERPROFILE', os.environ.get('HOME', 'C:\\')))
+    return Path.home()
+
+
+def get_claude_home() -> Path:
+    """Claude Code 전역 설정 디렉토리 (~/.claude)"""
+    claude_home = os.environ.get('CLAUDE_HOME')
+    if claude_home:
+        return Path(claude_home)
+    return get_home_dir() / '.claude'
+
+
+def normalize_path(path: Union[str, Path]) -> Path:
+    """경로 정규화 (크로스플랫폼)"""
+    p = Path(path)
+    # Windows에서 ~ 확장
+    if str(path).startswith('~'):
+        p = get_home_dir() / str(path)[2:]
+    return p.resolve()
+
+
+def ensure_dir(path: Union[str, Path]) -> Path:
+    """디렉토리 생성 후 반환 (크로스플랫폼)"""
+    p = normalize_path(path)
+    p.mkdir(parents=True, exist_ok=True)
+    return p
+
+
+def safe_read_file(path: Union[str, Path], default: str = "") -> str:
+    """안전한 파일 읽기 (인코딩 자동 감지)"""
+    p = normalize_path(path)
+    if not p.exists():
+        return default
+
+    encodings = ['utf-8', 'utf-8-sig', 'cp949', 'euc-kr', 'latin-1']
+    for encoding in encodings:
+        try:
+            return p.read_text(encoding=encoding)
+        except (UnicodeDecodeError, LookupError):
+            continue
+    return default
+
+
+def safe_write_file(path: Union[str, Path], content: str) -> bool:
+    """안전한 파일 쓰기"""
+    try:
+        p = normalize_path(path)
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text(content, encoding='utf-8')
+        return True
+    except Exception:
+        return False
+
+
+def get_python_cmd() -> str:
+    """Python 실행 명령어 (크로스플랫폼)"""
+    if IS_WINDOWS:
+        return 'python'
+    return 'python3'
 
 
 # ═══════════════════════════════════════════════════════════════════════════

@@ -310,7 +310,7 @@ def install_hooks() -> bool:
     """Install hooks to ~/.claude/hooks"""
     log("\n📦 Installing hooks...", Colors.BOLD)
 
-    source_hooks_dir = REPO_ROOT / "hooks"
+    source_hooks_dir = REPO_ROOT / "claude" / "hooks"
 
     if not source_hooks_dir.exists():
         log_warning("No hooks source found in repository.")
@@ -356,7 +356,7 @@ def install_commands() -> bool:
     """Install commands to ~/.claude/commands"""
     log("\n📋 Installing commands...", Colors.BOLD)
 
-    source_commands_dir = REPO_ROOT / "commands"
+    source_commands_dir = REPO_ROOT / "claude" / "commands"
 
     if not source_commands_dir.exists():
         log_warning("No commands source found in repository.")
