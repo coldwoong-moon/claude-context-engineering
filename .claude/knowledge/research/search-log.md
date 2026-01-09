@@ -1,0 +1,1 @@
+- [2026-01-09T16:09:08.060659] WebSearch: Claude Code best practices
