@@ -445,6 +445,61 @@ gantt
 |------|------|----------|
 | 2025-01-09 | v1.0 | 초기 연구 보고서 작성 |
 | 2025-01-09 | v1.1 | Citation Verification Update - 학술 인용 검증 및 수정 |
+| 2025-01-09 | v1.2 | Claude Code 2.1+ 기능 통합 - 새로운 Context Engineering 도구 적용 |
+
+### 8.1.1 Claude Code 2.1+ 기능 적용 현황
+
+**적용 완료된 기능**:
+
+| 기능 | 설명 | 효과 |
+|------|------|------|
+| **Wildcard Permissions** | `Bash(npm *)`, `mcp__*` 등 새 문법 | 권한 관리 간소화 |
+| **context: fork** | 서브에이전트 독립 컨텍스트 | 메모리 격리, 안정성 향상 |
+| **Agent Hooks in Frontmatter** | 스킬/커맨드 자체에 훅 정의 | 모듈화, 재사용성 향상 |
+| **Skill Hot-Reload** | `~/.claude/skills/` 자동 감지 | 개발 속도 향상 |
+| **LSP Tool** | 코드 인텔리전스 (go-to-definition 등) | 코드 탐색 효율화 |
+| **Real-Time Steering** | 작업 중 실시간 방향 수정 | 제어 유연성 향상 |
+| **Background Tasks (Ctrl+B)** | 작업 백그라운드 전환 | 멀티태스킹 지원 |
+| **MCP list_changed** | 동적 도구/리소스 업데이트 | MCP 연동 안정성 |
+
+**통합된 Moon 커맨드**:
+
+```yaml
+moon_commands:
+  /moon-loop:
+    purpose: "자율 연속 실행 (Ralph + Continuous + TDD)"
+    features: [context:fork, agent hooks, safety checks]
+
+  /moon-research:
+    purpose: "심층 연구 (Academic + Web + Multi-AI)"
+    features: [source logging, citation verification]
+
+  /moon-review:
+    purpose: "비판적 리뷰 (Multi-Perspective + Feedback)"
+    features: [scope tracking, findings collection]
+
+  /moon-cancel:
+    purpose: "안전한 루프 취소"
+    features: [state preservation, graceful shutdown]
+```
+
+**새 훅 시스템**:
+
+```
+claude/hooks/
+├── loop-safety-check.py       # 위험 명령 차단
+├── loop-progress-update.py    # 진행 상황 추적
+├── research-source-log.py     # 연구 소스 로깅
+├── citation-verify.py         # 인용 검증
+├── review-scope-track.py      # 리뷰 범위 추적
+├── review-findings-collect.py # 발견사항 수집
+├── spec-check.py             # 스펙 준수 검사
+└── evolution-feedback.py      # 진화 피드백 수집
+```
+
+**Sources**:
+- [Claude Code 2.1.0 - VentureBeat](https://venturebeat.com/orchestration/claude-code-2-1-0-arrives-with-smoother-workflows-and-smarter-agents)
+- [Claude Code CHANGELOG](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md)
 
 ### 8.2 인용 검증 결과 요약
 
