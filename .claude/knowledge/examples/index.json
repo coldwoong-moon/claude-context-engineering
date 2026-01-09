@@ -1,0 +1,21 @@
+{
+  "version": "1.0",
+  "examples": [],
+  "statistics": {
+    "total_examples": 0,
+    "avg_success_rate": 0.0,
+    "most_used_persona": null,
+    "most_used_domain": null,
+    "last_updated": "2025-01-09T14:00:00Z"
+  },
+  "selection_config": {
+    "similarity_threshold": 0.75,
+    "weights": {
+      "task_similarity": 0.5,
+      "success_rate": 0.3,
+      "recency": 0.2
+    },
+    "top_k": 3,
+    "recency_decay_days": 30
+  }
+}

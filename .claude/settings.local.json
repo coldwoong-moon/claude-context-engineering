@@ -12,7 +12,12 @@
       "Bash(xxd:*)",
       "Bash(for:*)",
       "Bash(do sed -i 's/\\\\r$//' \"$f\")",
-      "Bash(done)"
+      "Bash(done)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:blog.jetbrains.com)",
+      "Bash(wc:*)",
+      "Bash(ls:*)"
     ]
   }
 }

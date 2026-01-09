@@ -415,3 +415,240 @@ research <topic>                   # → Librarian
 - Verify each specialist's output
 - Cross-check between specialists
 - Validate against original requirements
+
+## External AI Platform Integration
+
+### Multi-AI Orchestration (NEW)
+
+See `MULTI-AI-ORCHESTRATION.md` for complete cross-platform AI coordination details.
+
+```yaml
+external_agents:
+  gemini_cli:
+    role: "Large context analysis specialist"
+    context_window: "1M+ tokens"
+    activation:
+      - context_size > 200000 tokens
+      - task_type: "large_codebase_analysis"
+      - task_type: "visual_analysis"
+      - task_type: "comprehensive_research"
+    integration:
+      - Slash command: /gemini
+      - Direct bash: gemini -p "<prompt>" -f <files>
+
+  codex_cli:
+    role: "Rapid prototyping specialist"
+    activation:
+      - task_type: "rapid_prototyping"
+      - task_type: "boilerplate_generation"
+      - task_type: "framework_scaffolding"
+    integration:
+      - Slash command: /codex-proto
+      - Direct bash: codex "<prompt>"
+
+routing_matrix:
+  large_analysis: gemini
+  rapid_prototyping: codex
+  complex_reasoning: claude
+  code_review: claude
+  visual_analysis: gemini
+  architecture_decisions: claude
+  boilerplate: codex
+```
+
+### Dual-Agent Loop Pattern
+
+```yaml
+dual_agent_loop:
+  detector: gemini  # Scans for issues
+  fixer: claude     # Resolves issues
+
+  workflow:
+    1: "Gemini scans codebase, appends issues to todo.md"
+    2: "Claude fixes first unchecked issue"
+    3: "Repeat until todo.md is empty"
+
+  coordination:
+    shared_file: ".claude/todo.md"
+    max_iterations: 20
+    rate_limit: "5s between cycles"
+```
+
+## Spec-Driven Pre-Implementation (NEW)
+
+See `SPEC-ATOMIZATION.md` for complete pre-implementation workflow details.
+
+### Mandatory Spec Phase
+
+```yaml
+spec_requirement:
+  trigger: "Before ANY implementation work"
+
+  phases:
+    1_requirements:
+      output: "requirements.md"
+      content: ["explicit_requirements", "implicit_requirements", "success_criteria"]
+
+    2_design:
+      output: "design.md"
+      content: ["architecture_impact", "risks", "strategy"]
+
+    3_tasks:
+      output: "tasks.md"
+      content: ["atomic_tasks", "dependencies", "complexity_scores"]
+
+    4_approval:
+      gate: "Human review required"
+      criteria: ["scope_validated", "approach_confirmed"]
+```
+
+### Atomization Rules
+
+```yaml
+atomic_task_criteria:
+  max_files_affected: 3
+  max_duration: "30 minutes"
+  testable_in_isolation: true
+  clear_completion_criteria: true
+  single_responsibility: true
+```
+
+## Evolution Feedback Loop (NEW)
+
+### Outcome-Based Learning
+
+```yaml
+feedback_loop:
+  capture_phase:
+    timing: "After each task/session completion"
+    data_points:
+      - planned_vs_actual_duration
+      - estimated_vs_actual_complexity
+      - predicted_vs_actual_files_changed
+      - agent_routing_decisions
+      - handoff_success_rate
+      - spec_accuracy_score
+
+  analyze_phase:
+    frequency: "Per session retrospective"
+    analysis:
+      - Pattern recognition in successful workflows
+      - Bottleneck identification
+      - Cost-efficiency analysis
+      - Agent utilization optimization
+
+  apply_phase:
+    actions:
+      - Update routing matrix weights
+      - Refine handoff templates
+      - Optimize agent selection criteria
+      - Improve spec templates
+      - Adjust complexity estimation
+
+  validate_phase:
+    method: "A/B testing on new tasks"
+    metrics:
+      - Improvement in task completion rate
+      - Reduction in rework cycles
+      - Better spec accuracy
+    rollback: "If degradation > 10%, revert changes"
+```
+
+### Continuous Improvement Metrics
+
+```yaml
+improvement_metrics:
+  routing_accuracy:
+    definition: "Correct agent selected for task type"
+    target: "> 85%"
+    measurement: "Successful task completion rate per agent"
+
+  handoff_success:
+    definition: "Clean context transfer between agents/sessions"
+    target: "> 95%"
+    measurement: "Tasks continued without re-explanation"
+
+  spec_accuracy:
+    definition: "Predicted vs actual implementation metrics"
+    target: "> 80%"
+    measurement: "Task count, file count, duration accuracy"
+
+  evolution_rate:
+    definition: "Improvement in metrics over time"
+    target: "> 5% per month"
+    measurement: "Rolling average of all metrics"
+```
+
+### Knowledge Persistence
+
+```yaml
+knowledge_persistence:
+  session_state:
+    file: ".claude/knowledge/session-state.json"
+    content:
+      - Active tasks and status
+      - Agent delegation history
+      - Routing decisions made
+      - Learnings captured
+
+  project_memory:
+    file: ".claude/knowledge/project-memory.md"
+    content:
+      - Successful patterns discovered
+      - Common pitfalls identified
+      - Optimal agent routing for this project
+      - Spec accuracy baselines
+
+  evolution_log:
+    file: ".claude/knowledge/evolution-log.md"
+    content:
+      - Template updates made
+      - Routing matrix changes
+      - Improvement metrics over time
+      - A/B test results
+```
+
+## Zero-Downtime Workflow Verification
+
+### Continuous Operation Checklist
+
+```yaml
+zero_downtime_verification:
+  session_continuity:
+    - [ ] HANDOFF.md properly maintained
+    - [ ] State preserved between sessions
+    - [ ] No context drift detected
+    - [ ] Clean baton passing protocol
+
+  multi_agent_coordination:
+    - [ ] Shared context layer functional
+    - [ ] Agent handoffs successful
+    - [ ] Parallel execution working
+    - [ ] Result aggregation complete
+
+  evolution_capability:
+    - [ ] Feedback loop operational
+    - [ ] Metrics being captured
+    - [ ] Templates improving over time
+    - [ ] Knowledge base growing
+
+  spec_integration:
+    - [ ] Pre-implementation specs created
+    - [ ] Atomization working correctly
+    - [ ] Validation gates functional
+    - [ ] Retrospectives generating insights
+```
+
+### Health Check Command
+
+```bash
+# Verify system integrity
+/health-check
+
+# Output:
+# - Session state: OK/WARNING/ERROR
+# - Agent routing: OK/WARNING/ERROR
+# - Evolution loop: OK/WARNING/ERROR
+# - Spec pipeline: OK/WARNING/ERROR
+# - HANDOFF integrity: OK/WARNING/ERROR
+```
